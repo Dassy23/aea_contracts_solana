@@ -1,0 +1,4 @@
+solana_private_key.txt
+.vscode
+__pycache__/*
+*.pyc

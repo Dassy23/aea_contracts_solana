@@ -1,0 +1,25 @@
+name: whirlpool
+author: dassy23
+version: 0.1.0
+type: contract
+description: Orca Whirlpool AMM Contract.
+license: Apache-2.0
+aea_version: '>=1.0.0, <2.0.0'
+fingerprint:
+  .pytest_cache/.gitignore: bafybeibrpk3xxqrmgsj3vqq75t4gr7qam2bs5njip6sk7mzz56skwc7ydu
+  .pytest_cache/CACHEDIR.TAG: bafybeiezngzmvefos2bjynwuepoajjhfippta52cw2ae6gobhvy23j5qgm
+  .pytest_cache/README.md: bafybeiacchqprleso5khz3wzc6lqafwipb4q6axwiisocruiubctvff47y
+  .pytest_cache/v/cache/lastfailed: bafybeigfffu3ajsmq26gkbj566ceba3giect4iredbqhlgyxgnuslxoluq
+  .pytest_cache/v/cache/nodeids: bafybeiemwvaufjwfqdqu4iaw5oau424xsz64acu4hrat2lgbnbytzzr324
+  .pytest_cache/v/cache/stepwise: bafybeidohhysvjqyajhuw2otvtfpswexy7nrdpnpsmkfa3zjitlso2usnq
+  __init__.py: bafybeiajqexavi3ffoqbuxr6kaopalglvljy4f4mknwb4ta5y642vdwmjm
+  contract.py: bafybeibkul4rmhwitasznttw6kiomjxoqegyas7oaz76zdljsh2lmoz2fe
+  drift_idl.json: bafybeiddgsyalnmsiyvmf33hxrg2gbc3qwk6y2ncelplxh4gtjkhqlgxfe
+  tests/__init__.py: bafybeiftu27piztiu5bfxbvhqsbppgtseykyfot6wtlrrzeuzya6zrgpky
+  tests/test_contract.py: bafybeiflbxqnyijdief54efnnfxnepxpfp2do2y52i6d3z5an56gynog2u
+fingerprint_ignore_patterns: []
+class_name: OrcaContract
+contract_interface_paths:
+  solana: IDL_whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc.json
+dependencies: {}
+contracts: []
