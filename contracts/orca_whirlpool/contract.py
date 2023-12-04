@@ -35,7 +35,7 @@ import json
 class OrcaContract(Contract):
     """The scaffold contract class for a smart contract."""
 
-    contract_id = PublicId.from_str("dassy23/whirlpool:0.1.0")
+    contract_id = PublicId.from_str("dassy23/orca_whirlpool:0.1.0")
 
     @classmethod
     def get_deposit_transaction(
