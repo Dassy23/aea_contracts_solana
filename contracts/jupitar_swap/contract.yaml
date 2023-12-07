@@ -16,9 +16,9 @@ fingerprint:
   .vscode/settings.json: bafybeifqg3lamde4i4htaas2kn4vdxe5imzae2o5tgk2m57lsrcstzqgfa
   Pipfile: bafybeiegpjqubaxytqudu44ydo22rh2e4ixft35ynm2fdmcuoqqzge6bma
   Pipfile.lock: bafybeihcsdw6w4tzpdykmj36dke3qhehfyrap6prln2xkhq7fyjzcvwoci
-  README.md: bafybeibo3xsopk5h3bkehhwq7icmd4om2f5tfnbbf3ncsjyrtgolnlrrlq
+  README.md: bafybeia4kcp4oc2bursyknhw5skjre3jvqv65abayqifdqongfdjgcts4u
   __init__.py: bafybeiajqexavi3ffoqbuxr6kaopalglvljy4f4mknwb4ta5y642vdwmjm
-  contract.py: bafybeiauioqwepgnzgunuipn7zlt4x2mzni4q33yapstdaeladkdwi6sci
+  contract.py: bafybeibuhgixjy7rmuhgcxoi6fl53g4cljfmfuz5l6qctul7pqs3fvnec4
   tests/test_contract.py: bafybeicmcr3pj5m4sj2etyucy2ny6ybvz4oc5vqak6ilv5msdokdjz5pwu
 fingerprint_ignore_patterns: []
 class_name: JupitarSwapContract

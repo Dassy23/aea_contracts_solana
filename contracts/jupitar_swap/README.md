@@ -17,6 +17,4 @@ Set interpreter to your venv environment from the above command
 
 Notes about the protocol
 
-UI: [Orca](https://www.orca.so/)
-Docs: [Orca Documentation](https://docs.orca.so/)
-Analytics: [Gecko Terminal - Orca Pools](https://www.geckoterminal.com/solana/orca/pools)
+Docs: [Jup Documentation](https://station.jup.ag/docs)
