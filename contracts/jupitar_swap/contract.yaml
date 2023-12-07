@@ -1,12 +1,11 @@
-name: orca_whirlpool
+name: jupitar_swap
 author: dassy23
 version: 0.1.0
 type: contract
-description: Orca Whirlpool AMM Contract.
+description: Jupitar Swap.
 license: Apache-2.0
 aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
-  .gitignore: bafybeicngrxmezx4yekgucscfi4q4t2srhett4exm5dilefodggicxrwiy
   .pytest_cache/.gitignore: bafybeibrpk3xxqrmgsj3vqq75t4gr7qam2bs5njip6sk7mzz56skwc7ydu
   .pytest_cache/CACHEDIR.TAG: bafybeiezngzmvefos2bjynwuepoajjhfippta52cw2ae6gobhvy23j5qgm
   .pytest_cache/README.md: bafybeiacchqprleso5khz3wzc6lqafwipb4q6axwiisocruiubctvff47y
@@ -17,14 +16,12 @@ fingerprint:
   .vscode/settings.json: bafybeifqg3lamde4i4htaas2kn4vdxe5imzae2o5tgk2m57lsrcstzqgfa
   Pipfile: bafybeiegpjqubaxytqudu44ydo22rh2e4ixft35ynm2fdmcuoqqzge6bma
   Pipfile.lock: bafybeihcsdw6w4tzpdykmj36dke3qhehfyrap6prln2xkhq7fyjzcvwoci
-  README.md: bafybeifx7b4cigmovfvbq2az7p3n2qysbhi4sbinbc46y6qoaqb7hk2oya
+  README.md: bafybeibo3xsopk5h3bkehhwq7icmd4om2f5tfnbbf3ncsjyrtgolnlrrlq
   __init__.py: bafybeiajqexavi3ffoqbuxr6kaopalglvljy4f4mknwb4ta5y642vdwmjm
-  build/IDL_whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc.json: bafybeidntg6upmmyx5a2k6zote2fjis6jbf54374b5nh5bqanp4jvd4pk4
-  contract.py: bafybeidyak5tsi2a5pe5yuljbqzjapqlvd32eziggsk3fakdprb3w7rpsm
-  tests/test_contract.py: bafybeicurnplp4lwywuea2v2uk5a4jtzfxu2h42jzsnucosdwnpfzkbbyq
+  contract.py: bafybeiauioqwepgnzgunuipn7zlt4x2mzni4q33yapstdaeladkdwi6sci
+  tests/test_contract.py: bafybeicmcr3pj5m4sj2etyucy2ny6ybvz4oc5vqak6ilv5msdokdjz5pwu
 fingerprint_ignore_patterns: []
-class_name: OrcaContract
-contract_interface_paths:
-  solana: build/IDL_whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc.json
+class_name: JupitarSwapContract
+contract_interface_paths: {}
 dependencies: {}
 contracts: []
