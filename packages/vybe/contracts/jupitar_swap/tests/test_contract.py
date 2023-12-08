@@ -144,52 +144,42 @@ class TestContractCommon:
 
         return transaction_receipt, not not_settled
 
+    def json_to_versioned_tx(tx):
+        pass
+
+
     def _sign_and_settle(self, solana_api: SolanaApi, txn: dict, payer) -> Tuple[str, JSONLike]:
         # txn = solana_api.add_nonce(txn)
-        try:
-            recent_blockhash = self.ledger_api.api.get_latest_blockhash().value.blockhash
-
-            msg = MessageV0(
-                header=txn.message.header,
-                account_keys=txn.message.account_keys,
-                instructions=txn.message.instructions,
-                address_table_lookups=txn.message.address_table_lookups,
-                recent_blockhash=recent_blockhash,
-            )
-            signed_transaction = VersionedTransaction(msg,[payer.entity])
-            transaction_digest = self.ledger_api.api.send_transaction(
-                    signed_transaction)
-            transaction_receipt, is_settled = self._wait_get_receipt(
-                self.ledger_api, str(transaction_digest.value))
-            assert is_settled is True
-            return [str(transaction_digest.value), transaction_receipt]
-        except Exception as e:
-            print(e)
-            print("")
+        recent_blockhash = self.ledger_api.api.get_latest_blockhash().value.blockhash
+        txn['message'][1]['recentBlockhash'] = json.loads(recent_blockhash.to_json())
+        msg = MessageV0.from_json(json.dumps(txn['message'][1]))
+        signed_transaction = VersionedTransaction(msg,[payer.entity])
+        transaction_digest = self.ledger_api.api.send_transaction(
+                signed_transaction)
+        transaction_receipt, is_settled = self._wait_get_receipt(
+            self.ledger_api, str(transaction_digest.value))
+        assert is_settled is True
+        return [str(transaction_digest.value), transaction_receipt]
+   
 
     
     @ pytest.mark.ledger
     def test_get_swap_tx(self) -> None:
         """Test get swap transaction."""
 
-        payer = SolanaCrypto("../solana_private_key.txt")
+        payer = SolanaCrypto("./solana_private_key.txt")
 
         txn = self.contract.get_swap_transaction(
             ledger_api=self.ledger_api,
             authority=payer.address,
             input_mint="So11111111111111111111111111111111111111112",
             output_mint="EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
-            amount=10000,
+            amount=10000000000,
             slippageBps=1
             )
 
-        swapTransactionBuf = base64.b64decode(txn['swapTransaction'])
-        tx = VersionedTransaction.from_bytes(swapTransactionBuf)
+        transaction_digest, transaction_receipt =  self._sign_and_settle(self.ledger_api,txn,payer)
+        assert transaction_receipt['result']['meta']['status'] == {'Ok': None}
+ 
+    
 
-        transaction_digest, transaction_receipt =  self._sign_and_settle(self.ledger_api, tx ,payer)
-        print(transaction_digest)
-        print(transaction_receipt)
-        
-
-
-        assert True

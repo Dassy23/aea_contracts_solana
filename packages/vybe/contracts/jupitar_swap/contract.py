@@ -23,12 +23,7 @@ from typing import Any, Optional
 from aea.common import JSONLike
 from aea.configurations.base import PublicId
 from aea.contracts.base import Contract
-from aea.crypto.base import LedgerApi
-from attr import attrs
-import time
-from aea_ledger_solana import (
-    SolanaCrypto, SolanaApi, Context, Pubkey,transaction)
-import multiprocessing as mp
+from aea_ledger_solana import (SolanaApi)
 import requests
 import base64
 from solders.transaction import Transaction, VersionedTransaction
@@ -67,16 +62,10 @@ class JupitarSwapContract(Contract):
                 }
             ).json()
 
-            #To Do - Function to convert Versioned TX to json
 
-            # swapTransactionBuf = base64.b64decode(swap_transaction['swapTransaction'])
-            # tx = VersionedTransaction.from_bytes(swapTransactionBuf)
-            # t = tx.
-            # t1 = VersionedTransaction.from_json(t)
-            # dict_formatted= json.loads(tx.to_json())
-            # json_formatted = json.dumps(dict_formatted)
-            # # buf = base64.b64encode(json_formatted)
-            # # tx = VersionedTransaction.fr from_json(json_formatted)
-            return swap_transaction
+            swapTransactionBuf = base64.b64decode(swap_transaction['swapTransaction'])
+            tx = VersionedTransaction.from_bytes(swapTransactionBuf)
+            return json.loads(tx.to_json())
+
             
             

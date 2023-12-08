@@ -18,8 +18,8 @@ fingerprint:
   Pipfile.lock: bafybeihcsdw6w4tzpdykmj36dke3qhehfyrap6prln2xkhq7fyjzcvwoci
   README.md: bafybeia4kcp4oc2bursyknhw5skjre3jvqv65abayqifdqongfdjgcts4u
   __init__.py: bafybeiajqexavi3ffoqbuxr6kaopalglvljy4f4mknwb4ta5y642vdwmjm
-  contract.py: bafybeibuhgixjy7rmuhgcxoi6fl53g4cljfmfuz5l6qctul7pqs3fvnec4
-  tests/test_contract.py: bafybeicmcr3pj5m4sj2etyucy2ny6ybvz4oc5vqak6ilv5msdokdjz5pwu
+  contract.py: bafybeigveicl4h7q373nddowfz4smqim2rcfjrdtlsgkxnqdyzkllhihkm
+  tests/test_contract.py: bafybeidiqyla7k37itojcmkb27wfbt565xpnfzohzqc2h32m4rlcod5ly4
 fingerprint_ignore_patterns: []
 class_name: JupitarSwapContract
 contract_interface_paths: {}
