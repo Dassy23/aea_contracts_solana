@@ -19,16 +19,18 @@
 
 """This module contains the scaffold contract definition."""
 
-from typing import Any, Optional
+import base64
+import json
+from typing import Any
+
+import requests
 from aea.common import JSONLike
 from aea.configurations.base import PublicId
 from aea.contracts.base import Contract
-from aea_ledger_solana import (SolanaApi)
-import requests
-import base64
-from solders.transaction import Transaction, VersionedTransaction
-import json
-import base58
+from aea_ledger_solana import SolanaApi
+from solders.transaction import VersionedTransaction
+
+
 class JupitarSwapContract(Contract):
     """The scaffold contract class for a smart contract."""
 
@@ -43,29 +45,24 @@ class JupitarSwapContract(Contract):
         output_mint,
         amount,
         slippageBps,
-        **kwargs: Any
+        **kwargs: Any,
     ) -> JSONLike:
         """Get the deposit transaction."""
 
         if ledger_api.identifier == SolanaApi.identifier:
-
-            url = f'https://quote-api.jup.ag/v6/quote?inputMint={input_mint}&outputMint={output_mint}&amount={amount}&slippageBps={slippageBps}'
+            url = f"https://quote-api.jup.ag/v6/quote?inputMint={input_mint}&outputMint={output_mint}&amount={amount}&slippageBps={slippageBps}"
             resp = requests.get(url)
             quote = resp.json()
             swap_transaction = requests.post(
-                'https://quote-api.jup.ag/v6/swap',
-                headers={'Content-Type': 'application/json'},
+                "https://quote-api.jup.ag/v6/swap",
+                headers={"Content-Type": "application/json"},
                 json={
-                    'quoteResponse': quote,
-                    'userPublicKey': authority,
-                    'wrapAndUnwrapSol': True
-                }
+                    "quoteResponse": quote,
+                    "userPublicKey": authority,
+                    "wrapAndUnwrapSol": True,
+                },
             ).json()
 
-
-            swapTransactionBuf = base64.b64decode(swap_transaction['swapTransaction'])
+            swapTransactionBuf = base64.b64decode(swap_transaction["swapTransaction"])
             tx = VersionedTransaction.from_bytes(swapTransactionBuf)
             return json.loads(tx.to_json())
-
-            
-            
