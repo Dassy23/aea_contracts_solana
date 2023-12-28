@@ -22,23 +22,19 @@
 # type: ignore # noqa: E800
 # pylint: skip-file
 
-import re
 import time
 from pathlib import Path
-from typing import cast
-from unittest import mock
-from typing import Dict, Generator, Optional, Tuple, Union, cast
-from aea.common import JSONLike
+from typing import Optional, Tuple, Union, cast
 
 import pytest
+from aea.common import JSONLike
 from aea.configurations.loader import (
     ComponentType,
     ContractConfig,
     load_component_configuration,
 )
 from aea.contracts.base import Contract, contract_registry
-from aea.test_tools.test_contract import BaseContractTestCase
-from aea_ledger_solana import SolanaCrypto, SolanaApi, SolanaFaucetApi, PublicKey, Transaction
+from aea_ledger_solana import SolanaApi, SolanaCrypto, SolanaFaucetApi
 
 PACKAGE_DIR = Path(__file__).parent.parent
 MAX_FLAKY_RERUNS = 3
@@ -59,8 +55,7 @@ class TestContractCommon:
         # register contract
         configuration = cast(
             ContractConfig,
-            load_component_configuration(
-                ComponentType.CONTRACT, cls.path_to_contract),
+            load_component_configuration(ComponentType.CONTRACT, cls.path_to_contract),
         )
         configuration._directory = (  # pylint: disable=protected-access
             cls.path_to_contract
@@ -87,7 +82,6 @@ class TestContractCommon:
         return tx
 
     def _generate_wealth_if_needed(self, api, address, amount=None) -> Union[str, None]:
-
         balance = api.get_balance(address)
 
         if balance >= 1000000000:
@@ -105,14 +99,17 @@ class TestContractCommon:
                 return "failed"
             else:
                 transaction_receipt, is_settled = self._wait_get_receipt(
-                    api, transaction_digest)
+                    api, transaction_digest
+                )
                 if is_settled is True:
                     return "success"
                 else:
                     return "failed"
 
     @staticmethod
-    def _wait_get_receipt(solana_api: SolanaApi, transaction_digest: str) -> Tuple[Optional[JSONLike], bool]:
+    def _wait_get_receipt(
+        solana_api: SolanaApi, transaction_digest: str
+    ) -> Tuple[Optional[JSONLike], bool]:
         transaction_receipt = None
         not_settled = True
         elapsed_time = 0
@@ -121,50 +118,44 @@ class TestContractCommon:
         while not_settled and elapsed_time < time_to_wait:
             elapsed_time += sleep_time
             time.sleep(sleep_time)
-            transaction_receipt = solana_api.get_transaction_receipt(
-                transaction_digest)
+            transaction_receipt = solana_api.get_transaction_receipt(transaction_digest)
             if transaction_receipt is None:
                 continue
-            is_settled = solana_api.is_transaction_settled(
-                transaction_receipt)
+            is_settled = solana_api.is_transaction_settled(transaction_receipt)
             not_settled = not is_settled
 
         return transaction_receipt, not not_settled
 
-    def _sign_and_settle(self, solana_api: SolanaApi, txn: dict, payer) -> Tuple[str, JSONLike]:
+    def _sign_and_settle(
+        self, solana_api: SolanaApi, txn: dict, payer
+    ) -> Tuple[str, JSONLike]:
         # txn = solana_api.add_nonce(txn)
-        try:
-            signed_transaction = payer.sign_transaction(
-                txn)
-            transaction_digest = solana_api.send_signed_transaction(
-                signed_transaction)
-            # assert transaction_digest is not None
-            transaction_receipt, is_settled = self._wait_get_receipt(
-                self.ledger_api, transaction_digest)
-            assert is_settled is True
-            return [transaction_digest, transaction_receipt]
-        except Exception as e:
-            print(e)
-            print("")
+        breakpoint()
+        signed_transaction = payer.sign_transaction(txn)
+        transaction_digest = solana_api.send_signed_transaction(signed_transaction)
+        # assert transaction_digest is not None
+        transaction_receipt, is_settled = self._wait_get_receipt(
+            self.ledger_api, transaction_digest
+        )
+        assert is_settled is True
+        return [transaction_digest, transaction_receipt]
 
-    
-    @ pytest.mark.ledger
+    @pytest.mark.ledger
     def test_get_swap_tx(self) -> None:
         """Test get swap transaction."""
         txn = self.contract.get_swap_transaction(
             ledger_api=self.ledger_api,
             contract_address="whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc",
             minta="So11111111111111111111111111111111111111112",
-            mintb="EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
-            )
+            mintb="EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+        )
         print(txn)
         print()
-        # payer = SolanaCrypto("solana_private_key.txt")
-        # resp = self._sign_and_settle(self.ledger_api, txn, payer)
-        # assert resp[1] is not None
+        payer = SolanaCrypto("solana_private_key.txt")
+        resp = self._sign_and_settle(self.ledger_api, txn, payer)
+        breakpoint()
+        assert resp[1] is not None
 
-    
+    # address whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc
 
-    #address whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc
-
-    #config 2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ
+    # config 2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ
