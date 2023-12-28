@@ -11,6 +11,7 @@ python = "^3.10"
 open-aea-ledger-solana = "^1.43.0.post2"
 open-aea-cli-ipfs = "^1.43.0.post2"
 open-autonomy = "^0.13.9.post1"
+rich = "^13.7.0"
 
 
 

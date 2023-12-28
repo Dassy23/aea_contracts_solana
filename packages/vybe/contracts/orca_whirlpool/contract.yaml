@@ -16,8 +16,8 @@ fingerprint:
   README.md: bafybeifx7b4cigmovfvbq2az7p3n2qysbhi4sbinbc46y6qoaqb7hk2oya
   __init__.py: bafybeiajqexavi3ffoqbuxr6kaopalglvljy4f4mknwb4ta5y642vdwmjm
   build/IDL_whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc.json: bafybeidntg6upmmyx5a2k6zote2fjis6jbf54374b5nh5bqanp4jvd4pk4
-  contract.py: bafybeieu37ozpvm5pun5dbppgbbb26nwvktkwglaphe4sfhrq23llhjmcu
-  tests/test_contract.py: bafybeigclvewlzldum4xfbfe4r3pwnfcuepwkg4nbzco6gp5yfv5ga2ibe
+  contract.py: bafybeigpwfqhwmsgvmr2r6xn7iozu3mxeyqf7bpn6bnmihwgbdu5pd4bdm
+  tests/test_contract.py: bafybeihbv4lzatwwciigfkwqa2jevog2nmdvps5killqybqwbfdgzfdu7y
 fingerprint_ignore_patterns: []
 class_name: OrcaContract
 contract_interface_paths:

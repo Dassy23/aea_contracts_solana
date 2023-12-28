@@ -126,9 +126,69 @@ class OrcaContract(Contract):
 
             requestToIndices = []
 
+            amount = 10000000
+            other_amount_threshold = 1068438
+            sqrt_prict_limit = sqrtPriceLimit
+            amount_specified_is_input = True
+            a_to_b = True
+
+            method = whirlpool_instance.methods["swap"].args(
+                [
+                    amount,
+                    other_amount_threshold,
+                    sqrt_prict_limit,
+                    amount_specified_is_input,
+                    a_to_b,
+                ],
+            )
+
+            payer = Pubkey.from_string("8ki9Q4tw4R3i28FbfsvaXGHp6MPVvBsJBssMfGhj81NJ")
+
+            txn = method.accounts(
+                {
+                    "token_program": Pubkey.from_string(
+                        "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+                    ),
+                    "token_authority": payer,
+                    "whirlpool": Pubkey.from_string(whirlpool_address),
+                    "token_owner_account_a": payer,
+                    "token_vault_a": vaultA.owner,
+                    "token_mint_a": mintinfoA.owner,
+                    "token_owner_account_b": payer,
+                    "token_vault_b": vaultB.owner,
+                    "token_mint_b": mintinfoB.owner,
+                    "tick_array0": Pubkey.from_string(tickData[0]["address"]),
+                    "tick_array1": Pubkey.from_string(tickData[1]["address"]),
+                    "tick_array2": Pubkey.from_string(tickData[2]["address"]),
+                    "oracle": Pubkey.from_string(
+                        "2LecshUwdy9xi7meFgHtFJQNSKk4KdTrcpvaB56dP2NQ"
+                    ),
+                }
+            )
+
+            from solders.hash import Hash
+            from solders.keypair import Keypair
+
+            payer = Keypair()
+
+            # payer = SolanaCrypto("solana_private_key.txt")
+
+            breakpoint()
+
+            txn = txn.signers([payer])
+            txn = txn.transaction(
+                payer=payer,
+                blockhash=Hash.from_string(
+                    "25dQgmT5zuPsNUistpb6JE78e5fnECFJXVpyVwuhEMrg"
+                ),
+            )
+            # breakpoint()
+
             # https://github.com/orca-so/whirlpools/blob/3a15880bd6bf8499059045ebe8eadd8715278345/sdk/src/utils/public/swap-utils.ts#L159
 
             # still a WIP
+
+            breakpoint()
 
             print(whirlpool[0].__str__())
 

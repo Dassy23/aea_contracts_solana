@@ -34,7 +34,7 @@ from aea.configurations.loader import (
     load_component_configuration,
 )
 from aea.contracts.base import Contract, contract_registry
-from aea_ledger_solana import SolanaApi, SolanaFaucetApi
+from aea_ledger_solana import SolanaApi, SolanaCrypto, SolanaFaucetApi
 
 PACKAGE_DIR = Path(__file__).parent.parent
 MAX_FLAKY_RERUNS = 3
@@ -130,18 +130,15 @@ class TestContractCommon:
         self, solana_api: SolanaApi, txn: dict, payer
     ) -> Tuple[str, JSONLike]:
         # txn = solana_api.add_nonce(txn)
-        try:
-            signed_transaction = payer.sign_transaction(txn)
-            transaction_digest = solana_api.send_signed_transaction(signed_transaction)
-            # assert transaction_digest is not None
-            transaction_receipt, is_settled = self._wait_get_receipt(
-                self.ledger_api, transaction_digest
-            )
-            assert is_settled is True
-            return [transaction_digest, transaction_receipt]
-        except Exception as e:
-            print(e)
-            print("")
+        breakpoint()
+        signed_transaction = payer.sign_transaction(txn)
+        transaction_digest = solana_api.send_signed_transaction(signed_transaction)
+        # assert transaction_digest is not None
+        transaction_receipt, is_settled = self._wait_get_receipt(
+            self.ledger_api, transaction_digest
+        )
+        assert is_settled is True
+        return [transaction_digest, transaction_receipt]
 
     @pytest.mark.ledger
     def test_get_swap_tx(self) -> None:
@@ -154,9 +151,10 @@ class TestContractCommon:
         )
         print(txn)
         print()
-        # payer = SolanaCrypto("solana_private_key.txt")
-        # resp = self._sign_and_settle(self.ledger_api, txn, payer)
-        # assert resp[1] is not None
+        payer = SolanaCrypto("solana_private_key.txt")
+        resp = self._sign_and_settle(self.ledger_api, txn, payer)
+        breakpoint()
+        assert resp[1] is not None
 
     # address whirLbMiicVdio4qvUfM5KAg6Ct8VwpYzGff3uctyCc
 

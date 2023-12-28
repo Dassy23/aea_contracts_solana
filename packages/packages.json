@@ -1,7 +1,7 @@
 {
     "dev": {
         "contract/vybe/jupitar_swap/0.1.0": "bafybeihwc4otf6nu4blzjleid4hbju4hwdsk7n6xjqwagguo7kvlapeov4",
-        "contract/vybe/orca_whirlpool/0.1.0": "bafybeidig3ddeii4osllq2e5dk6l7wauyvd4xla5tdarv6jsrtq4fpnlqa"
+        "contract/vybe/orca_whirlpool/0.1.0": "bafybeiexcis4xexhc7h2iw3jhtq6ssmzmbrebx4oxafibfxsbcuyt27hnm"
     },
     "third_party": {}
 }
