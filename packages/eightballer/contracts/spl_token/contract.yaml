@@ -1,0 +1,16 @@
+name: spl_token
+author: eightballer
+version: 0.1.0
+type: contract
+description: The scaffold contract scaffolds a contract to be implemented by the developer.
+license: Apache-2.0
+aea_version: '>=1.0.0, <2.0.0'
+fingerprint:
+  __init__.py: bafybeigcsjowp5qsftho3hjmt6n6twsmz442227taw7ixkqxlklnmivve4
+  contract.py: bafybeiake5mhd3n5zem6vtvzxhmxwsokipv7tny5amny5doiuw5mjfq45y
+  tests/test_contract.py: bafybeih4o6l5tihddiaxvnx3tmju75fjak3twklt6tlqqgfninjhphrfbi
+fingerprint_ignore_patterns: []
+class_name: SolanaProgramLibraryToken
+contract_interface_paths: {}
+dependencies: {}
+contracts: []
