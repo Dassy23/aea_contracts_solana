@@ -183,7 +183,7 @@ class TestContractCommon:
             input_mint=input_mint,
             output_mint=output_mint,
             amount=amount,
-            slippageBps=10,
+            slippage_bps=10,
         )
 
         transaction_digest, is_settled = self._sign_and_settle(
@@ -216,7 +216,7 @@ class TestContractCommon:
             input_mint=input_token.address,
             output_mint=output_token.address,
             amount=input_token.to_machine(amount),
-            slippageBps=10,
+            slippage_bps=10,
         )
         rate = amount / output_token.to_human(int(quote["outAmount"]))
         assert rate > 0
