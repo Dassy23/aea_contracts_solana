@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # ------------------------------------------------------------------------------
 #
+#   Copyright 2023 eightballer
 #   Copyright 2021-2022 Valory AG
 #   Copyright 2018-2020 Fetch.AI Limited
 #
@@ -32,7 +33,7 @@ from aea.configurations.loader import (
     load_component_configuration,
 )
 from aea.contracts.base import Contract, contract_registry
-from aea_ledger_solana import SolanaApi
+from aea_ledger_solana import SolanaApi, SolanaCrypto
 
 from packages.eightballer.contracts.spl_token.contract import SplToken
 
@@ -79,13 +80,29 @@ class TestContractCommon:
             (OLAS_ADDRESS, "OLAS", 8),
         ],
     )
-    def test_get_token(
-        self, address, symbol, expected_decimals
-    ):
+    def test_get_token(self, address, symbol, expected_decimals):
         """Test the get_token method."""
 
-        token_data = self.contract.get_token(
-            self.ledger_api, address, symbol
-        )
+        token_data = self.contract.get_token(self.ledger_api, address, symbol)
         spl_token = SplToken(**token_data)
-        assert spl_token.decimals == expected_decimals, f"Token {spl_token.symbol} has {spl_token.decimals} decimals, expected {expected_decimals}"
+        assert (
+            spl_token.decimals == expected_decimals
+        ), f"Token {spl_token.symbol} has {spl_token.decimals} decimals, expected {expected_decimals}"
+
+    @pytest.mark.parametrize(
+        "contract_address",
+        [
+            SOL_ADDDRESS,
+            OLAS_ADDRESS,
+        ],
+    )
+    def test_get_balance(self, contract_address):
+        """Test the get_balance method."""
+
+        crypto = SolanaCrypto("solana_private_key.txt")
+        balance = self.contract.get_balance(
+            self.ledger_api, contract_address, crypto.address
+        )
+        assert (
+            balance >= 0
+        ), f"Balance of {contract_address} is {balance}, expected >= 0"
