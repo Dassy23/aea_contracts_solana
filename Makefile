@@ -52,7 +52,7 @@ test: clean
 	poetry run pytest packages/vybe/contracts/orca_whirlpool
 	# poetry run pytest packages/vybe/contracts/jupitar_swap
 
-all: fmt lint test
+all: fmt hashes lint test
 
 hashes:
 	poetry run autonomy packages lock

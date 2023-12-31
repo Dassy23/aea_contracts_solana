@@ -21,14 +21,16 @@
 
 import base64
 import json
-from typing import Any
 
 import requests
 from aea.common import JSONLike
 from aea.configurations.base import PublicId
 from aea.contracts.base import Contract
 from aea_ledger_solana import SolanaApi
-from solders.transaction import VersionedTransaction
+from solders.transaction import VersionedTransaction  # noqa
+
+JUPITAR_URL = "https://quote-api.jup.ag/v6"
+TIMEOUT = 10
 
 
 class JupitarSwapContract(Contract):
@@ -38,31 +40,54 @@ class JupitarSwapContract(Contract):
 
     @classmethod
     def get_swap_transaction(
-        cls,
+        cls,  # noqa
         ledger_api: SolanaApi,
         authority,
         input_mint,
         output_mint,
         amount,
-        slippageBps,
-        **kwargs: Any,
+        slippage_bps,
     ) -> JSONLike:
         """Get the deposit transaction."""
 
-        if ledger_api.identifier == SolanaApi.identifier:
-            url = f"https://quote-api.jup.ag/v6/quote?inputMint={input_mint}&outputMint={output_mint}&amount={amount}&slippageBps={slippageBps}"
-            resp = requests.get(url)
-            quote = resp.json()
-            swap_transaction = requests.post(
-                "https://quote-api.jup.ag/v6/swap",
-                headers={"Content-Type": "application/json"},
-                json={
-                    "quoteResponse": quote,
-                    "userPublicKey": authority,
-                    "wrapAndUnwrapSol": True,
-                },
-            ).json()
+        quote = cls.get_swap_quote(
+            ledger_api,
+            input_mint,
+            output_mint,
+            amount,
+            slippage_bps,
+        )
+        swap_transaction = requests.post(
+            f"{JUPITAR_URL}/swap",
+            headers={"Content-Type": "application/json"},
+            json={
+                "quoteResponse": quote,
+                "userPublicKey": authority,
+                "wrapAndUnwrapSol": True,
+            },
+            timeout=TIMEOUT,
+        ).json()
+        swap_transaction_bytes = base64.b64decode(swap_transaction["swapTransaction"])
+        tx = VersionedTransaction.from_bytes(swap_transaction_bytes)
+        return json.loads(tx.to_json())
 
-            swapTransactionBuf = base64.b64decode(swap_transaction["swapTransaction"])
-            tx = VersionedTransaction.from_bytes(swapTransactionBuf)
-            return json.loads(tx.to_json())
+    @classmethod
+    def get_swap_quote(
+        cls,
+        ledger_api: SolanaApi,  # noqa
+        input_mint,
+        output_mint,
+        amount,
+        slippage_bps,
+    ) -> JSONLike:
+        """Get the deposit transaction."""
+
+        params = {
+            "inputMint": input_mint,
+            "outputMint": output_mint,
+            "amount": amount,
+            "slippageBps": slippage_bps,
+        }
+        resp = requests.get(f"{JUPITAR_URL}/quote", timeout=TIMEOUT, params=params)
+        quote = resp.json()
+        return quote

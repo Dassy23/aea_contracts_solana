@@ -8,10 +8,11 @@ aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
   README.md: bafybeia4kcp4oc2bursyknhw5skjre3jvqv65abayqifdqongfdjgcts4u
   __init__.py: bafybeiajqexavi3ffoqbuxr6kaopalglvljy4f4mknwb4ta5y642vdwmjm
-  contract.py: bafybeibu7l6km4cv4rtcvatqim6fiyvgeuk2fa56nggt6uv5xh3sugagqa
-  tests/test_contract.py: bafybeidm6rkvdirfj4ubmmraxenniahpkrn7cosgjapy72i7tu4behdtrm
+  contract.py: bafybeigk5a2x6shskdrkv2esjn7wal37b224vuznnnv4vgqovoufniixh4
+  tests/test_contract.py: bafybeibwrgjzfn5kqnvsc34qumdonuznvjswd4o3n2lz7oxbzot2u4r6ui
 fingerprint_ignore_patterns: []
 class_name: JupitarSwapContract
 contract_interface_paths: {}
 dependencies: {}
-contracts: []
+contracts:
+- eightballer/spl_token:0.1.0:bafybeiaro725zyd5deznmbzcjh536fftqfl5vqu7i7f4gucw63keew4fr4
