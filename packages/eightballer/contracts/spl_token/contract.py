@@ -22,13 +22,13 @@
 from dataclasses import dataclass
 
 from aea.common import JSONLike
+from aea.configurations.base import PublicId
 from aea.contracts.base import Contract
 from aea.crypto.base import LedgerApi
 from aea_ledger_solana import Pubkey
 from solana.rpc.types import TokenAccountOpts
 
-from packages.eightballer.contracts.spl_token import PUBLIC_ID
-
+PUBLIC_ID = PublicId.from_str("eightballer/spl_token:0.1.0")
 SOL_ADDDRESS = "So11111111111111111111111111111111111111112"
 
 

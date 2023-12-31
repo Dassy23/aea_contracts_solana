@@ -1,7 +1,7 @@
 {
     "dev": {
-        "contract/vybe/jupitar_swap/0.1.0": "bafybeidz7vgundcjoq3eoweue3p4533chuimoks7jqlfhbccsrwza5jl7q",
-        "contract/eightballer/spl_token/0.1.0": "bafybeiaro725zyd5deznmbzcjh536fftqfl5vqu7i7f4gucw63keew4fr4"
+        "contract/vybe/jupitar_swap/0.1.0": "bafybeihijrbahazufnnvcwnvbqqavbcslbeqvduzy6vadv27m2w3hvpy3e",
+        "contract/eightballer/spl_token/0.1.0": "bafybeigcxe6nsyku3dnsg4t2lms6tm4zw3ijvlf77x4wqmxahq3lzmfwau"
     },
     "third_party": {}
 }

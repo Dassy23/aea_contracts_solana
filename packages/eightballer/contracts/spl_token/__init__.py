@@ -18,7 +18,3 @@
 # ------------------------------------------------------------------------------
 
 """This module contains the support resources for the scaffold contract."""
-
-from aea.configurations.base import PublicId
-
-PUBLIC_ID = PublicId.from_str("eightballer/spl_token:0.1.0")
