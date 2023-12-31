@@ -1,6 +1,7 @@
 {
     "dev": {
         "contract/vybe/jupitar_swap/0.1.0": "bafybeidz7vgundcjoq3eoweue3p4533chuimoks7jqlfhbccsrwza5jl7q",
+        "contract/vybe/orca_whirlpool/0.1.0": "bafybeicygp2k7grppcdxyjpg6ljd3sgcgglt5el7mogbkr3cmhbkzvfjd4",
         "contract/eightballer/spl_token/0.1.0": "bafybeiaro725zyd5deznmbzcjh536fftqfl5vqu7i7f4gucw63keew4fr4"
     },
     "third_party": {}
