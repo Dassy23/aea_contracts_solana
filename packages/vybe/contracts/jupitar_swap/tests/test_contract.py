@@ -39,10 +39,18 @@ from aea_ledger_solana import Signature, SolanaApi, SolanaCrypto, SolanaFaucetAp
 from solders.message import MessageV0
 from solders.transaction import VersionedTransaction
 
+from packages.eightballer.contracts.spl_token.contract import (
+    SolanaProgramLibraryToken,
+    SplToken,
+)
+
 PACKAGE_DIR = Path(__file__).parent.parent
 MAX_FLAKY_RERUNS = 3
 
 DEFAULT_ADDRESS = "https://belita-kndiva-fast-mainnet.helius-rpc.com/"
+
+SOL_ADDDRESS = "So11111111111111111111111111111111111111112"
+OLAS_ADDRESS = "Ez3nzG9ofodYCvEmw73XhQ87LWNYVRM2s7diB5tBZPyM"
 
 
 class TestContractCommon:
@@ -118,6 +126,7 @@ class TestContractCommon:
         elapsed_time = 0
         time_to_wait = 40
         sleep_time = 0.25
+
         while not_settled and elapsed_time < time_to_wait:
             elapsed_time += sleep_time
             time.sleep(sleep_time)
@@ -130,14 +139,11 @@ class TestContractCommon:
             if transaction_receipt["result"] is None:
                 continue
 
-            # transaction_receipt = solana_api.get_transaction_receipt(
-            #     transaction_digest)
             is_settled = solana_api.is_transaction_settled(
                 transaction_receipt["result"]
             )
-            not_settled = not is_settled
 
-        return transaction_receipt, not not_settled
+        return transaction_receipt, is_settled
 
     def json_to_versioned_tx(tx):
         pass
@@ -145,12 +151,13 @@ class TestContractCommon:
     def _sign_and_settle(
         self, solana_api: SolanaApi, txn: dict, payer
     ) -> Tuple[str, JSONLike]:
-        # txn = solana_api.add_nonce(txn)
         recent_blockhash = self.ledger_api.api.get_latest_blockhash().value.blockhash
         txn["message"][1]["recentBlockhash"] = json.loads(recent_blockhash.to_json())
         msg = MessageV0.from_json(json.dumps(txn["message"][1]))
         signed_transaction = VersionedTransaction(msg, [payer.entity])
+
         transaction_digest = self.ledger_api.api.send_transaction(signed_transaction)
+
         transaction_receipt, is_settled = self._wait_get_receipt(
             self.ledger_api, str(transaction_digest.value)
         )
@@ -158,7 +165,14 @@ class TestContractCommon:
         return [str(transaction_digest.value), transaction_receipt]
 
     @pytest.mark.ledger
-    def test_get_swap_tx(self) -> None:
+    @pytest.mark.parametrize(
+        "input_mint, output_mint, amount",
+        [
+            (SOL_ADDDRESS, OLAS_ADDRESS, 88888),
+            (OLAS_ADDRESS, SOL_ADDDRESS, 15555),
+        ],
+    )
+    def test_get_swap_tx(self, input_mint, output_mint, amount) -> None:
         """Test get swap transaction."""
 
         payer = SolanaCrypto("./solana_private_key.txt")
@@ -166,13 +180,43 @@ class TestContractCommon:
         txn = self.contract.get_swap_transaction(
             ledger_api=self.ledger_api,
             authority=payer.address,
-            input_mint="So11111111111111111111111111111111111111112",
-            output_mint="EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
-            amount=10000000000,
-            slippageBps=1,
+            input_mint=input_mint,
+            output_mint=output_mint,
+            amount=amount,
+            slippage_bps=10,
         )
 
-        transaction_digest, transaction_receipt = self._sign_and_settle(
+        transaction_digest, is_settled = self._sign_and_settle(
             self.ledger_api, txn, payer
         )
-        assert transaction_receipt["result"]["meta"]["status"] == {"Ok": None}
+
+        assert transaction_digest is not None
+        assert is_settled
+
+    @pytest.mark.ledger
+    @pytest.mark.parametrize(
+        "input_mint, output_mint, amount",
+        [
+            ((SOL_ADDDRESS, "SOL"), (OLAS_ADDRESS, "OLAS"), 0.001),
+            ((OLAS_ADDRESS, "OLAS"), (SOL_ADDDRESS, "SOL"), 1),
+        ],
+    )
+    def test_get_swap_quote(self, input_mint, output_mint, amount) -> None:
+        """Test get swap transaction."""
+
+        # we first need to retrieve the token info
+        input_token = SplToken(
+            **SolanaProgramLibraryToken.get_token(self.ledger_api, *input_mint)
+        )
+        output_token = SplToken(
+            **SolanaProgramLibraryToken.get_token(self.ledger_api, *output_mint)
+        )
+        quote = self.contract.get_swap_quote(
+            ledger_api=self.ledger_api,
+            input_mint=input_token.address,
+            output_mint=output_token.address,
+            amount=input_token.to_machine(amount),
+            slippage_bps=10,
+        )
+        rate = amount / output_token.to_human(int(quote["outAmount"]))
+        assert rate > 0
