@@ -49,7 +49,8 @@ fmt: clean
 	poetry run black packages
 
 test: clean
-	poetry run pytest packages/vybe/contracts/jupitar_swap
+	poetry run pytest packages -vv
+	make clean
 
 all: fmt hashes lint test
 
