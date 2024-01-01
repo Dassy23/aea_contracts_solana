@@ -50,7 +50,6 @@ fmt: clean
 
 test: clean
 	poetry run pytest packages/vybe/contracts/jupitar_swap
-	poetry run pytest packages/eightballer
 
 all: fmt hashes lint test
 

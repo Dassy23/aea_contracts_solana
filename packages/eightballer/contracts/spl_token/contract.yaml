@@ -2,7 +2,8 @@ name: spl_token
 author: eightballer
 version: 0.1.0
 type: contract
-description: The scaffold contract scaffolds a contract to be implemented by the developer.
+description: Implements a number of simple methods to enable interaction with a spl
+  token, along with a representation of the spl token itself.
 license: Apache-2.0
 aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
