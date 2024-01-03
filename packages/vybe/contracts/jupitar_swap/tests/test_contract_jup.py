@@ -35,7 +35,7 @@ from aea.configurations.loader import (
     load_component_configuration,
 )
 from aea.contracts.base import Contract, contract_registry
-from aea_ledger_solana import Signature, SolanaApi, SolanaCrypto, SolanaFaucetApi
+from aea_ledger_solana import SolanaApi, SolanaCrypto, SolanaFaucetApi
 from solders.message import MessageV0
 from solders.transaction import VersionedTransaction
 
@@ -122,27 +122,16 @@ class TestContractCommon:
         solana_api: SolanaApi, transaction_digest: str
     ) -> Tuple[Optional[JSONLike], bool]:
         transaction_receipt = None
-        not_settled = True
+        is_settled = False
         elapsed_time = 0
         time_to_wait = 40
         sleep_time = 0.25
 
-        while not_settled and elapsed_time < time_to_wait:
+        while not is_settled and elapsed_time < time_to_wait:
             elapsed_time += sleep_time
             time.sleep(sleep_time)
-            transaction_receipt = solana_api.api.get_transaction(
-                Signature.from_string(transaction_digest),
-                max_supported_transaction_version=100,
-            )  # pylint: disable=no-member
-            transaction_receipt = json.loads(transaction_receipt.to_json())
-
-            if transaction_receipt["result"] is None:
-                continue
-
-            is_settled = solana_api.is_transaction_settled(
-                transaction_receipt["result"]
-            )
-
+            transaction_receipt = solana_api.get_transaction_receipt(transaction_digest)
+            is_settled = solana_api.is_transaction_settled(transaction_receipt)
         return transaction_receipt, is_settled
 
     def json_to_versioned_tx(tx):
@@ -155,9 +144,7 @@ class TestContractCommon:
         txn["message"][1]["recentBlockhash"] = json.loads(recent_blockhash.to_json())
         msg = MessageV0.from_json(json.dumps(txn["message"][1]))
         signed_transaction = VersionedTransaction(msg, [payer.entity])
-
         transaction_digest = self.ledger_api.api.send_transaction(signed_transaction)
-
         transaction_receipt, is_settled = self._wait_get_receipt(
             self.ledger_api, str(transaction_digest.value)
         )
