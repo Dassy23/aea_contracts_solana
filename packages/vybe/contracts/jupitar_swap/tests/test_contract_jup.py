@@ -36,12 +36,13 @@ from aea.configurations.loader import (
 )
 from aea.contracts.base import Contract, contract_registry
 from aea_ledger_solana import SolanaApi, SolanaCrypto, SolanaFaucetApi
+from solders.message import MessageV0
+from solders.transaction import VersionedTransaction
+
 from packages.eightballer.contracts.spl_token.contract import (
     SolanaProgramLibraryToken,
     SplToken,
 )
-from solders.message import MessageV0
-from solders.transaction import VersionedTransaction
 
 PACKAGE_DIR = Path(__file__).parent.parent
 MAX_FLAKY_RERUNS = 3

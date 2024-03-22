@@ -34,6 +34,7 @@ from aea.configurations.loader import (
 )
 from aea.contracts.base import Contract, contract_registry
 from aea_ledger_solana import SolanaApi, SolanaCrypto
+
 from packages.eightballer.contracts.spl_token.contract import SplToken
 
 PACKAGE_DIR = Path(__file__).parent.parent
