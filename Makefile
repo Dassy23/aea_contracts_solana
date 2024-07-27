@@ -56,3 +56,4 @@ all: fmt hashes lint test
 
 hashes:
 	poetry run autonomy packages lock
+	poetry run autonomy push-all
